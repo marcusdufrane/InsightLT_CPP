@@ -39,12 +39,12 @@ InsightLT display = new InsightLT();
 
 The default zone is ONE_TWO_LINE_ZONE.
 To create the display with a different configuration pass one of
-InsightLT.FOUR_ZONES
-InsightLT.ONE_TWO_LINE_ZONE
-InsightLT.TWO_ONE_LINE_ZONES
+FOUR_ZONES
+ONE_TWO_LINE_ZONE
+TWO_ONE_LINE_ZONES
 to the constructor like
 
-InsightLT display = new InsightLT(InsightLT.FOUR_ZONES);
+InsightLT display(FOUR_ZONES);
 display.startDisplay();
 
 
@@ -56,7 +56,7 @@ formatting. For an example, lets say we want to display the battery voltage.
 First we need to create the data object. for battery voltage we want to display 
 a decimal value so we need to use the DecimalData object.
 
-DecimalData disp_batteryVoltage = new DecimalData("Batt:");
+DecimalData disp_batteryVoltage("Batt:");
 
 The parameter to the constructor sets the header. The header can also be set
 after construction.
@@ -65,6 +65,7 @@ the zone configuration of the display. For this example lets use the four zone
 configuration and put the battery voltage in zone 2.
 
 display.registerData(disp_batteryVoltage, 2);
+display.startDisplay();
 
 Now all you need to do is set the value.
 
@@ -101,23 +102,27 @@ Initialize these items in the constructor, especially the display.
 ->class scope
 InsightLT display;
 StringData disp_userInfo;
-IntegerData disp_numberOfGamePeices;
+IntegerData disp_numberOfGamePieces;
 
--> constructor
-display = new InsightLT(config);
-display.registerData(disp_userInfo, 1);
-display.registerData(disp_numberOfGamePeices);
-display.startDisplay();
+-> constructor() 
+RobotDemo(void) : display(config option)
+{
+  disp_userInfo.setHeader("Mode:");
+  disp_numberOfGamePieces.setHeader("Items"):
+  display.registerData(disp_userInfo, 1);
+  display.registerData(disp_numberOfGamePieces);
+  display.startDisplay();
+  ...
 
-disp_userInfo = new StringData("Mode:");
-disp_numberOfGamePeices - new IntegerData("Items"):
+
 
 ->auto, disable, or operator
-dataitems.setData(datavalue)
+disp_userInfo.setData("Hello");
+disp_numberOfGamePieces.setData(4);
 
 
 For use during competition you may want to stop the display to relinquish the
 limited resources that are used by the display thread.
-To do this call display.stopDisplay() at the beginning of the operator control
+To do this call display.pauseDisplay() at the beginning of the operator control
 method. You can call display.startDisplay() before exiting the operator control
 method to have the display reactivated to show any data for after the match.
